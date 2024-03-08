@@ -1,2 +1,1 @@
-spark-submit ./apps/iris_inference.py
-
+spark-submit --packages io.delta:delta-spark_2.12:3.1.0 ./apps/transform_load.py

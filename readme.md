@@ -35,3 +35,8 @@ pyspark
 ```sh
 spark-submit ./apps/rdd.py
 ```
+
+## Add external jars to SPARK_HOME
+
+``` sh
+cp ./apps/resources/external_jars/* /opt/spark/jars

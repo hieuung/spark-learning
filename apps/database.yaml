@@ -1,0 +1,6 @@
+hieu_env:
+  host: 10.99.193.236
+  port: 5432
+  username: hieuut
+  password: hieuut
+  db_name: hieuut

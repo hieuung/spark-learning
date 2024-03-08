@@ -1,0 +1,28 @@
+full_load:
+  customers:
+    primary_key: id
+    required_columns:
+      - first_name
+      - last_name
+      - email
+    make_created_at: true
+    make_updated_at: true
+
+  orders:
+    primary_key: id
+    required_columns:
+      - order_date
+      - purchaser
+      - quantity
+      - product_id
+    make_created_at: true
+    make_updated_at: true
+
+  products:
+    primary_key: id
+    required_columns:
+      - name
+      - description
+      - weight
+    make_created_at: true
+    make_updated_at: true
