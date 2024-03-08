@@ -372,21 +372,28 @@ def run_staging_extractor(env, db_name, bucket_name, action, job_date, from_zone
         incoming_last_row_number = incoming_data.agg(_max('ROW_NUMBER')).head()["max(ROW_NUMBER)"]
         logger.info(f"Incoming last row number {incoming_last_row_number}")
 
-        if not _is_data_available_from_etl_log(db_name=db_name, zone= to_zone, table_name=table_name, job_date=job_date):
-            job_details = {
-                'sink_path': staging_sink_path
-            }
-
-            job_logging = {
+        job_logging = {
                 'db_name': db_name,
-                'table_name': table_name,
                 'action': action,
                 'zone': STAGING_ZONE,
-                'details': json.dumps(job_details),
+                'table_name': table_name,
                 'job_date': f'{start_time.year}-{start_time.month}-{start_time.day}',
             }
 
-            logger.info(f"Job logging {job_logging}")
+        logger.info(f"Job logging {job_logging}")
+
+        job_details = {
+                'sink_path': staging_sink_path
+        }
+
+        if not _is_data_available_from_etl_log(db_name=db_name, zone= to_zone, table_name=table_name, job_date=job_date):
+            logger.info(f"Data {table_name} not available from etl log")
+            
+            job_logging.update(
+                {
+                    'details': json.dumps(job_details)
+                }
+            )
 
             try:
                 current_row_number = _get_last_row_number_from_log_job_date(
@@ -412,6 +419,7 @@ def run_staging_extractor(env, db_name, bucket_name, action, job_date, from_zone
 
                     _save_log_to_etl_metadata(**job_logging)
             except Exception as e:
+                logger.info(f"Data {table_name} available from etl log")
                 job_details.update({
                     'error_message': str(e)
                 })
