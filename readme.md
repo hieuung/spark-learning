@@ -40,3 +40,8 @@ spark-submit ./apps/rdd.py
 
 ``` sh
 cp ./apps/resources/external_jars/* /opt/spark/jars
+```
+
+## Application using Spark
+
+> **_NOTE:_** Read `readme` in `/apps` directory
